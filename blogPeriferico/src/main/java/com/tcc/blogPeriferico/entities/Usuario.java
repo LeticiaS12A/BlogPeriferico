@@ -1,9 +1,14 @@
 package com.tcc.blogPeriferico.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,15 +22,28 @@ public class Usuario {
 	private String nome;
 	private String email;
 	private String senha;
-	private int cpf;
+	private String cpf;
 	private String[] roles;
+	
+	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Anuncio> anuncios = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Noticias> noticias;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Comercio> comercios;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Doacao> doacoes;
 	
 	//Constructors
 	public Usuario() {
 
 	}
 
-	public Usuario(Long id, String nome, String email, String senha, int cpf, String[] roles) {
+	public Usuario(Long id, String nome, String email, String senha, String cpf, String[] roles) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
@@ -67,11 +85,11 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public int getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(int cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 

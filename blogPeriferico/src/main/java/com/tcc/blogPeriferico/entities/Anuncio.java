@@ -1,10 +1,14 @@
 package com.tcc.blogPeriferico.entities;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +25,12 @@ public class Anuncio {
 	private String imagem;
 	private Float preco;
 	private int telefone;
+	
+    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+	
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 	
 	//Getters and Setters
 	public Long getId() {
@@ -60,16 +70,22 @@ public class Anuncio {
 		this.telefone = telefone;
 	}
 	
+	public LocalDateTime getDataHoraCriacao() { return dataHoraCriacao; }
+    public void setDataHoraCriacao(LocalDateTime dataHoraCriacao) { this.dataHoraCriacao = dataHoraCriacao; }
+	
 	//Constructors
 	public Anuncio() {
+	
 	}
-	public Anuncio(Long id, String local, String texto, String imagem, Float preco, int telefone) {
+	
+	public Anuncio(Long id, String local, String texto, String imagem, Float preco, int telefone, LocalDateTime dataHoraCriacao) {
 		this.id = id;
 		this.local = local;
 		this.texto = texto;
 		this.imagem = imagem;
 		this.preco = preco;
 		this.telefone = telefone;
+		this.dataHoraCriacao = LocalDateTime.now();
 	}
 	
 	

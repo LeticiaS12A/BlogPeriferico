@@ -19,23 +19,23 @@ public class NoticiasService {
 
     // Criar novo anúncio
     public NoticiasDTO criarNoticias(NoticiasDTO dto) {
-    	Noticias noticias = new Noticias(dto.getId(), dto.getLocal(), dto.getTexto(), dto.getImagem());
+    	Noticias noticias = new Noticias(dto.getId(), dto.getLocal(), dto.getTexto(), dto.getImagem(), dto.getDataHoraCriacao());
     	noticias = noticiasRepository.save(noticias);
-        return new NoticiasDTO(noticias.getId(), dto.getLocal(), dto.getTexto(), dto.getImagem());
+        return new NoticiasDTO(noticias.getId(), dto.getLocal(), dto.getTexto(), dto.getImagem(), dto.getDataHoraCriacao());
     }
 
     // Listar todos os anúncios
     public List<NoticiasDTO> listarNoticias() {
         List<Noticias> noticias = noticiasRepository.findAll();
         return noticias.stream()
-                .map(a -> new NoticiasDTO(a.getId(), a.getLocal(), a.getTexto(), a.getImagem()))
+                .map(n -> new NoticiasDTO(n.getId(), n.getLocal(), n.getTexto(), n.getImagem(), n.getDataHoraCriacao()))
                 .collect(Collectors.toList());
     }
 
     // Buscar anúncio por ID
     public Optional<NoticiasDTO> buscarPorId(Long id) {
         Optional<Noticias> noticias = noticiasRepository.findById(id);
-        return noticias.map(a -> new NoticiasDTO(a.getId(), a.getLocal(), a.getTexto(), a.getImagem()));
+        return noticias.map(n -> new NoticiasDTO(n.getId(), n.getLocal(), n.getTexto(), n.getImagem(), n.getDataHoraCriacao()));
     }
 
     // Atualizar anúncio
@@ -46,8 +46,9 @@ public class NoticiasService {
         	noticias.setLocal(dto.getLocal());
         	noticias.setTexto(dto.getTexto());
         	noticias.setImagem(dto.getImagem());
+        	noticias.setDataHoraCriacao(dto.getDataHoraCriacao());
         	noticiasRepository.save(noticias);
-            return Optional.of(new NoticiasDTO(noticias.getId(), noticias.getLocal(), noticias.getTexto(), noticias.getImagem()));
+            return Optional.of(new NoticiasDTO(noticias.getId(), noticias.getLocal(), noticias.getTexto(), noticias.getImagem(), noticias.getDataHoraCriacao()));
         }
         return Optional.empty();
     }

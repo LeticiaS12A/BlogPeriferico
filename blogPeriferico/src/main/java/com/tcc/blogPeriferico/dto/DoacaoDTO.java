@@ -1,5 +1,7 @@
 package com.tcc.blogPeriferico.dto;
 
+import java.time.LocalDateTime;
+
 import com.tcc.blogPeriferico.entities.Doacao;
 
 public class DoacaoDTO {
@@ -9,6 +11,7 @@ public class DoacaoDTO {
 	private String texto;
 	private String imagem;
 	private String tipoItem;
+	private LocalDateTime dataHoraCriacao;
 	
 	//Getters and Setters
 	public Long getId() {
@@ -42,15 +45,21 @@ public class DoacaoDTO {
 		this.tipoItem = tipoItem;
 	}
 	
+	public LocalDateTime getDataHoraCriacao() { return dataHoraCriacao; }
+    public void setDataHoraCriacao(LocalDateTime dataHoraCriacao) { this.dataHoraCriacao = dataHoraCriacao; }
+	
 	//Constructors
 	public DoacaoDTO() {
+	
 	}
-	public DoacaoDTO(Long id, String local, String texto, String imagem, String tipoItem) {
+	
+	public DoacaoDTO(Long id, String local, String texto, String imagem, String tipoItem, LocalDateTime dataHoraCriacao) {
 		this.id = id;
 		this.local = local;
 		this.texto = texto;
 		this.imagem = imagem;
 		this.tipoItem = tipoItem;
+		this.dataHoraCriacao = dataHoraCriacao;
 	}
 	
 	public DoacaoDTO(Doacao d) {
@@ -59,6 +68,7 @@ public class DoacaoDTO {
 		texto = d.getTexto();
 		imagem = d.getImagem();
 		tipoItem = d.getTipoItem();
+		dataHoraCriacao = d.getDataHoraCriacao();
 	}
 	
 }

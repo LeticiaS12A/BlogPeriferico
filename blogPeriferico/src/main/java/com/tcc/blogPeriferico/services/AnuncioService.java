@@ -20,23 +20,23 @@ public class AnuncioService {
 
     // Criar novo anúncio
     public AnuncioDTO criarAnuncio(AnuncioDTO dto) {
-        Anuncio anuncio = new Anuncio(dto.getId(), dto.getLocal(), dto.getTexto(), dto.getImagem(), dto.getPreco(), dto.getTelefone());
+        Anuncio anuncio = new Anuncio(dto.getId(), dto.getLocal(), dto.getTexto(), dto.getImagem(), dto.getPreco(), dto.getTelefone(), dto.getDataHoraCriacao());
         anuncio = anuncioRepository.save(anuncio);
-        return new AnuncioDTO(dto.getId(), anuncio.getLocal(), anuncio.getTexto(), anuncio.getImagem(), anuncio.getPreco(), anuncio.getTelefone());
+        return new AnuncioDTO(dto.getId(), anuncio.getLocal(), anuncio.getTexto(), anuncio.getImagem(), anuncio.getPreco(), anuncio.getTelefone(), anuncio.getDataHoraCriacao());
     }
 
     // Listar todos os anúncios
     public List<AnuncioDTO> listarAnuncios() {
         List<Anuncio> anuncios = anuncioRepository.findAll();
         return anuncios.stream()
-                .map(a -> new AnuncioDTO(a.getId(), a.getLocal(), a.getTexto(), a.getImagem(), a.getPreco(), a.getTelefone()))
+                .map(a -> new AnuncioDTO(a.getId(), a.getLocal(), a.getTexto(), a.getImagem(), a.getPreco(), a.getTelefone(), a.getDataHoraCriacao()))
                 .collect(Collectors.toList());
     }
 
     // Buscar anúncio por ID
     public Optional<AnuncioDTO> buscarPorId(Long id) {
         Optional<Anuncio> anuncio = anuncioRepository.findById(id);
-        return anuncio.map(a -> new AnuncioDTO(a.getId(), a.getLocal(), a.getTexto(), a.getImagem(), a.getPreco(), a.getTelefone()));
+        return anuncio.map(a -> new AnuncioDTO(a.getId(), a.getLocal(), a.getTexto(), a.getImagem(), a.getPreco(), a.getTelefone(), a.getDataHoraCriacao()));
     }
 
     // Atualizar anúncio
@@ -49,8 +49,9 @@ public class AnuncioService {
             anuncio.setImagem(dto.getImagem());
             anuncio.setPreco(dto.getPreco());
             anuncio.setTelefone(dto.getTelefone());
+            anuncio.setDataHoraCriacao(dto.getDataHoraCriacao());
             anuncioRepository.save(anuncio);
-            return Optional.of(new AnuncioDTO(anuncio.getId(), anuncio.getLocal(), anuncio.getTexto(), anuncio.getImagem(), anuncio.getPreco(), anuncio.getTelefone()));
+            return Optional.of(new AnuncioDTO(anuncio.getId(), anuncio.getLocal(), anuncio.getTexto(), anuncio.getImagem(), anuncio.getPreco(), anuncio.getTelefone(), anuncio.getDataHoraCriacao()));
         }
         return Optional.empty();
     }

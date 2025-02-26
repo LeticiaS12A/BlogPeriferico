@@ -19,23 +19,23 @@ public class ComercioService {
 
     // Criar novo anúncio
     public ComercioDTO criarComercio(ComercioDTO dto) {
-    	Comercio comercio = new Comercio(dto.getId(), dto.getLocal(), dto.getTexto(), dto.getImagem());
+    	Comercio comercio = new Comercio(dto.getId(), dto.getLocal(), dto.getTexto(), dto.getImagem(), dto.getDataHoraCriacao());
     	comercio = comercioRepository.save(comercio);
-        return new ComercioDTO(dto.getId(), comercio.getLocal(), comercio.getTexto(), comercio.getImagem());
+        return new ComercioDTO(dto.getId(), comercio.getLocal(), comercio.getTexto(), comercio.getImagem(), comercio.getDataHoraCriacao());
     }
 
     // Listar todos os anúncios
     public List<ComercioDTO> listarComercios() {
         List<Comercio> comercios = comercioRepository.findAll();
         return comercios.stream()
-                .map(a -> new ComercioDTO(a.getId(), a.getLocal(), a.getTexto(), a.getImagem()))
+                .map(c -> new ComercioDTO(c.getId(), c.getLocal(), c.getTexto(), c.getImagem(), c.getDataHoraCriacao()))
                 .collect(Collectors.toList());
     }
 
     // Buscar anúncio por ID
     public Optional<ComercioDTO> buscarPorId(Long id) {
         Optional<Comercio> comercio = comercioRepository.findById(id);
-        return comercio.map(a -> new ComercioDTO(a.getId(), a.getLocal(), a.getTexto(), a.getImagem()));
+        return comercio.map(c -> new ComercioDTO(c.getId(), c.getLocal(), c.getTexto(), c.getImagem(), c.getDataHoraCriacao()));
     }
 
     // Atualizar anúncio
@@ -46,8 +46,9 @@ public class ComercioService {
             comercio.setLocal(dto.getLocal());
             comercio.setTexto(dto.getTexto());
             comercio.setImagem(dto.getImagem());
+            comercio.setDataHoraCriacao(dto.getDataHoraCriacao());
             comercioRepository.save(comercio);
-            return Optional.of(new ComercioDTO(comercio.getId(), comercio.getLocal(), comercio.getTexto(), comercio.getImagem()));
+            return Optional.of(new ComercioDTO(comercio.getId(), comercio.getLocal(), comercio.getTexto(), comercio.getImagem(), comercio.getDataHoraCriacao()));
         }
         return Optional.empty();
     }

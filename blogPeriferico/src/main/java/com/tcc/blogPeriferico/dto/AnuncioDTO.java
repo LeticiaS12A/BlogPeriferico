@@ -1,5 +1,7 @@
 package com.tcc.blogPeriferico.dto;
 
+import java.time.LocalDateTime;
+
 import com.tcc.blogPeriferico.entities.Anuncio;
 
 import jakarta.persistence.Column;
@@ -14,6 +16,7 @@ public class AnuncioDTO {
 	private String imagem;
 	private Float preco;
 	private int telefone;
+	private LocalDateTime dataHoraCriacao;
 	
 	//Getters and Setters
 	public Long getId() {
@@ -53,25 +56,32 @@ public class AnuncioDTO {
 		this.telefone = telefone;
 	}
 	
+	public LocalDateTime getDataHoraCriacao() { return dataHoraCriacao; }
+    public void setDataHoraCriacao(LocalDateTime dataHoraCriacao) { this.dataHoraCriacao = dataHoraCriacao; }
+	
 	//Constructors
 	public AnuncioDTO() {
+	
 	}
-	public AnuncioDTO(Long id, String local, String texto, String imagem, Float preco, int telefone) {
+	
+	public AnuncioDTO(Long id, String local, String texto, String imagem, Float preco, int telefone, LocalDateTime dataHoraCriacao) {
 		this.id = id;
 		this.local = local;
 		this.texto = texto;
 		this.imagem = imagem;
 		this.preco = preco;
 		this.telefone = telefone;
+		this.dataHoraCriacao = dataHoraCriacao;
 	}
 	
-	public AnuncioDTO(Anuncio v) {
-		id = v.getId();
-		local = v.getLocal();
-		texto = v.getTexto();
-		imagem = v.getImagem();
-		preco = v.getPreco();
-		telefone = v.getTelefone();
+	public AnuncioDTO(Anuncio a) {
+		id = a.getId();
+		local = a.getLocal();
+		texto = a.getTexto();
+		imagem = a.getImagem();
+		preco = a.getPreco();
+		telefone = a.getTelefone();
+		dataHoraCriacao = a.getDataHoraCriacao();
 	}
 	
 }

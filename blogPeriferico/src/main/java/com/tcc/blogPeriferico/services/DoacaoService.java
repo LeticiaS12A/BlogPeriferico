@@ -19,23 +19,23 @@ public class DoacaoService {
 
     // Criar novo anúncio
     public DoacaoDTO criarDoacao(DoacaoDTO dto) {
-    	Doacao doacao = new Doacao(dto.getId(), dto.getLocal(), dto.getTexto(), dto.getImagem(), dto.getTipoItem());
+    	Doacao doacao = new Doacao(dto.getId(), dto.getLocal(), dto.getTexto(), dto.getImagem(), dto.getTipoItem(), dto.getDataHoraCriacao());
     	doacao = doacaoRepository.save(doacao);
-        return new DoacaoDTO(doacao.getId(), doacao.getLocal(), doacao.getTexto(), doacao.getImagem(), doacao.getTipoItem());
+        return new DoacaoDTO(doacao.getId(), doacao.getLocal(), doacao.getTexto(), doacao.getImagem(), doacao.getTipoItem(), doacao.getDataHoraCriacao());
     }
 
     // Listar todos os anúncios
     public List<DoacaoDTO> listarDoacoes() {
         List<Doacao> doacoes = doacaoRepository.findAll();
         return doacoes.stream()
-                .map(a -> new DoacaoDTO(a.getId(), a.getLocal(), a.getTexto(), a.getImagem(), a.getTipoItem()))
+                .map(d -> new DoacaoDTO(d.getId(), d.getLocal(), d.getTexto(), d.getImagem(), d.getTipoItem(), d.getDataHoraCriacao()))
                 .collect(Collectors.toList());
     }
 
     // Buscar anúncio por ID
     public Optional<DoacaoDTO> buscarPorId(Long id) {
         Optional<Doacao> doacao = doacaoRepository.findById(id);
-        return doacao.map(a -> new DoacaoDTO(a.getId(), a.getLocal(), a.getTexto(), a.getImagem(), a.getTipoItem()));
+        return doacao.map(d -> new DoacaoDTO(d.getId(), d.getLocal(), d.getTexto(), d.getImagem(), d.getTipoItem(), d.getDataHoraCriacao()));
     }
 
     // Atualizar anúncio
@@ -47,8 +47,9 @@ public class DoacaoService {
         	doacao.setTexto(dto.getTexto());
         	doacao.setImagem(dto.getImagem());
         	doacao.setTipoItem(dto.getTipoItem());
+        	doacao.setDataHoraCriacao(dto.getDataHoraCriacao());
         	doacaoRepository.save(doacao);
-            return Optional.of(new DoacaoDTO(doacao.getId(), doacao.getLocal(), doacao.getTexto(), doacao.getImagem(), doacao.getTipoItem()));
+            return Optional.of(new DoacaoDTO(doacao.getId(), doacao.getLocal(), doacao.getTexto(), doacao.getImagem(), doacao.getTipoItem(), doacao.getDataHoraCriacao()));
         }
         return Optional.empty();
     }

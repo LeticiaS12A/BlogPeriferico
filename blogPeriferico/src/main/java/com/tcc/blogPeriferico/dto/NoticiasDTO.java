@@ -1,5 +1,7 @@
 package com.tcc.blogPeriferico.dto;
 
+import java.time.LocalDateTime;
+
 import com.tcc.blogPeriferico.entities.Noticias;
 
 public class NoticiasDTO {
@@ -8,6 +10,7 @@ public class NoticiasDTO {
 	private String local;
 	private String texto;
 	private String imagem;
+	private LocalDateTime dataHoraCriacao;
 	
 	//Getters and Setters
 	public Long getId() {
@@ -41,17 +44,21 @@ public class NoticiasDTO {
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
 	}
+	
+	public LocalDateTime getDataHoraCriacao() { return dataHoraCriacao; }
+    public void setDataHoraCriacao(LocalDateTime dataHoraCriacao) { this.dataHoraCriacao = dataHoraCriacao; }
 
 	//Constructors
 	public NoticiasDTO() {
 		
 	}
 
-	public NoticiasDTO(Long id, String local, String texto, String imagem) {
+	public NoticiasDTO(Long id, String local, String texto, String imagem, LocalDateTime dataHoraCriacao) {
 		this.id = id;
 		this.local = local;
 		this.texto = texto;
 		this.imagem = imagem;
+		this.dataHoraCriacao = dataHoraCriacao;
 	}
 	
 	public NoticiasDTO(Noticias n) {
@@ -59,6 +66,7 @@ public class NoticiasDTO {
 		local = n.getLocal();
 		texto = n.getTexto();
 		imagem = n.getImagem();
+		dataHoraCriacao = n.getDataHoraCriacao();
 	}
 	
 	

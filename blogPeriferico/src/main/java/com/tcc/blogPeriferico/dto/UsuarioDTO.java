@@ -8,7 +8,7 @@ public class UsuarioDTO {
 	private String nome;
 	private String email;
 	private String senha;
-	private int cpf;
+	private String cpf;
 	private String[] roles;
 	public Long getId() {
 		return id;
@@ -34,10 +34,10 @@ public class UsuarioDTO {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public int getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
-	public void setCpf(int cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 	public String[] getRoles() {
@@ -51,7 +51,7 @@ public class UsuarioDTO {
 		
 	}
 	
-	public UsuarioDTO(Long id, String nome, String email, String senha, int cpf, String[] roles) {
+	public UsuarioDTO(Long id, String nome, String email, String senha, String cpf, String[] roles) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
