@@ -18,6 +18,6 @@ public class AuthService {
         Usuario usuario = usuarioRepository.findByEmail(authentication.getName()).orElse(null);
         if (usuario == null) return false;
 
-        return usuario.getRole() == UsuarioRole.ADMINISTRADOR || usuario.getId().equals(idUsuarioCriador);
+        return usuario.getRoles() == UsuarioRole.ROLE_ADMINISTRADOR || usuario.getId().equals(idUsuarioCriador);
     }
 }

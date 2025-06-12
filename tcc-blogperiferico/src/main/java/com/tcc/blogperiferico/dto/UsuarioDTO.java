@@ -3,7 +3,8 @@ package com.tcc.blogperiferico.dto;
 import com.tcc.blogperiferico.entities.Usuario;
 import com.tcc.blogperiferico.enums.UsuarioRole;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -25,8 +26,8 @@ public class UsuarioDTO {
 	private String email;
 	@NotBlank(message = "Senha é obrigatória.")
 	private String senha;
-	@Column(nullable = false)
-	private UsuarioRole roles;
+	@Enumerated(EnumType.STRING)
+    private UsuarioRole roles;
 	
 	//Constructor
 	public UsuarioDTO() {

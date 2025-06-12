@@ -1,11 +1,21 @@
 package com.tcc.blogperiferico.entities;
 
-import com.tcc.blogperiferico.dto.UsuarioDTO;
-import com.tcc.blogperiferico.enums.UsuarioRole;
-import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.tcc.blogperiferico.dto.UsuarioDTO;
+import com.tcc.blogperiferico.enums.UsuarioRole;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -25,6 +35,7 @@ public class Usuario {
     private String senha;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "roles", length = 30)
     private UsuarioRole roles;
 
     @OneToMany(mappedBy = "idUsuario", cascade = CascadeType.ALL, orphanRemoval = true)

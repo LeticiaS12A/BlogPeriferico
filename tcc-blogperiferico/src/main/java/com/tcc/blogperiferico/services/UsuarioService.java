@@ -3,6 +3,7 @@ package com.tcc.blogperiferico.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tcc.blogperiferico.dto.UsuarioDTO;
@@ -15,72 +16,79 @@ import com.tcc.blogperiferico.repository.UsuarioRepository;
 @Service
 public class UsuarioService {
 
-	@Autowired
+    @Autowired
     UsuarioRepository repository;
 
-    //Listar uma pessoa
+    @Autowired
+    PasswordEncoder encoder;
+
     public UsuarioDTO listar(Long id) {
         return new UsuarioDTO(repository.findById(id)
                 .orElseThrow(() -> new SemResultadosException()));
     }
 
-    //Listar todas as pessoas
     public List<UsuarioDTO> listar() {
         List<Usuario> usuarios = repository.findAll();
         return usuarios.stream().map(UsuarioDTO::new).toList();
     }
-        //Cadastrar pessoa=-
-        public UsuarioDTO salvar (UsuarioDTO user){
-            //validação de duplicidade
-            if (repository.existsByEmail(user.getEmail())) {
-                throw new UsuarioDuplicadoException();
-            }
-            Usuario usuario = new Usuario(user);
-            usuario.setRoles(UsuarioRole.ROLE_VISITANTE);
-            return new UsuarioDTO(repository.save(usuario));
+
+    public UsuarioDTO salvar(UsuarioDTO user) {
+        if (repository.existsByEmail(user.getEmail())) {
+            throw new UsuarioDuplicadoException();
         }
 
-        //Atualizar pessoa
-        public UsuarioDTO atualizartudo (UsuarioDTO user, Long id){
-            //verificando existencia no banco
-            Usuario usuario = repository.findById(id).orElseThrow(() -> new SemResultadosException("atualização."));
+        Usuario usuario = new Usuario();
+        usuario.setNome(user.getNome());
+        usuario.setEmail(user.getEmail());
+        usuario.setSenha(encoder.encode(user.getSenha()));
+        usuario.setRoles(user.getRoles() != null ? user.getRoles() : UsuarioRole.ROLE_VISITANTE);
 
-            if (repository.existsByEmail(user.getEmail(), id)) {
-                throw new UsuarioDuplicadoException();
-            }
+        return new UsuarioDTO(repository.save(usuario));
+    }
+
+    public UsuarioDTO atualizartudo(UsuarioDTO user, Long id) {
+        Usuario usuario = repository.findById(id)
+                .orElseThrow(() -> new SemResultadosException("atualização."));
+
+        if (repository.existsByEmail(user.getEmail(), id)) {
+            throw new UsuarioDuplicadoException();
+        }
+
+        usuario.setNome(user.getNome());
+        usuario.setEmail(user.getEmail());
+        usuario.setSenha(encoder.encode(user.getSenha()));
+        usuario.setRoles(user.getRoles());
+
+        return new UsuarioDTO(repository.save(usuario));
+    }
+
+    public UsuarioDTO atualizar(UsuarioDTO user, Long id) {
+        Usuario usuario = repository.findById(id)
+                .orElseThrow(() -> new SemResultadosException("atualização."));
+
+        if (!user.getNome().equals(usuario.getNome())) {
             usuario.setNome(user.getNome());
+        }
+
+        if (!user.getEmail().equals(usuario.getEmail())) {
             usuario.setEmail(user.getEmail());
-            usuario.setSenha(user.getSenha());
+        }
+
+        if (!user.getSenha().equals(usuario.getSenha())) {
+            usuario.setSenha(encoder.encode(user.getSenha()));
+        }
+
+        if (!user.getRoles().equals(usuario.getRoles())) {
             usuario.setRoles(user.getRoles());
-            return new UsuarioDTO(repository.save(usuario));
         }
 
-        public UsuarioDTO atualizar (UsuarioDTO user, Long id){
-            Usuario usuario = repository.findById(id).orElseThrow(() -> new SemResultadosException("atualização."));
+        return new UsuarioDTO(repository.save(usuario));
+    }
 
-            if (!user.getNome().equals(usuario.getNome())) {
-                usuario.setNome(user.getNome());
-            }
-
-            if (!user.getEmail().equals(usuario.getEmail())) {
-                usuario.setEmail(user.getEmail());
-            }
-
-            if (!user.getSenha().equals(usuario.getSenha())) {
-                usuario.setSenha(user.getSenha());
-            }
-
-            if (!user.getRoles().equals(usuario.getRoles())) {
-                usuario.setRoles(user.getRoles());
-            }
-            return new UsuarioDTO(repository.save(usuario));
+    public void deletar(Long id) {
+        if (!repository.existsById(id)) {
+            throw new SemResultadosException();
         }
-
-        //Deletar pessoa
-        public void deletar (Long id){
-            if (!repository.existsById(id)) {
-                throw new SemResultadosException();
-            }
-            repository.deleteById(id);
-        }
+        repository.deleteById(id);
+    }
 }

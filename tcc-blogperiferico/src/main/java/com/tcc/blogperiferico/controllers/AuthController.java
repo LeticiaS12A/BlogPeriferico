@@ -34,15 +34,19 @@ public class AuthController {
     private JWTUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha())
-        );
+    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+        try {
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha())
+            );
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-        Usuario usuario = usuarioRepository.findByEmail(request.getEmail()).orElseThrow();
-        String token = jwtUtil.generateToken(userDetails, usuario.getRoles().name());
+            UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+            Usuario usuario = usuarioRepository.findByEmail(request.getEmail()).orElseThrow();
+            String token = jwtUtil.generateToken(userDetails, usuario.getRoles().name());
 
-        return ResponseEntity.ok(new AuthResponse(token));
+            return ResponseEntity.ok(new AuthResponse(token));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Credenciais inválidas.");
+        }
     }
 }

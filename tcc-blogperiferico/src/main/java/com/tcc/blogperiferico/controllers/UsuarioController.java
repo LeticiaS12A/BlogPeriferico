@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tcc.blogperiferico.dto.UsuarioDTO;
+import com.tcc.blogperiferico.enums.UsuarioRole;
 import com.tcc.blogperiferico.services.UsuarioService;
 
 import jakarta.validation.Valid;
@@ -26,41 +27,43 @@ import jakarta.validation.Valid;
 public class UsuarioController {
 
     @Autowired
-    UsuarioService service;
+    private UsuarioService service;
 
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
     @GetMapping("/listar")
     public ResponseEntity<List<UsuarioDTO>> listarTudo() {
-        List<UsuarioDTO> usuarios = service.listar();
-        return ResponseEntity.ok(usuarios);
+        return ResponseEntity.ok(service.listar());
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'USUARIO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRADOR', 'ROLE_USUARIO')")
     @GetMapping("/listar/{id}")
     public ResponseEntity<UsuarioDTO> listar(@PathVariable Long id) {
-        UsuarioDTO usuario = service.listar(id);
-        return ResponseEntity.ok(usuario);
+        return ResponseEntity.ok(service.listar(id));
     }
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("/salvar")
-    public ResponseEntity<UsuarioDTO> salvar(@Valid @RequestBody UsuarioDTO user) {
-        return ResponseEntity.ok(service.salvar(user));
+    public ResponseEntity<UsuarioDTO> salvar(@Valid @RequestBody UsuarioDTO dto) {
+        // Forçar role para "ROLE_ADMINISTRADOR" temporariamente
+        if (dto.getRoles() == null) {
+            dto.setRoles(UsuarioRole.ROLE_ADMINISTRADOR); // Fixando a role temporariamente
+        }
+        return ResponseEntity.ok(service.salvar(dto));
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO', 'ADMINISTRADOR')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO', 'ROLE_ADMINISTRADOR')")
     @PutMapping("/atualizartudo/{id}")
     public ResponseEntity<UsuarioDTO> atualizarTudo(@Valid @RequestBody UsuarioDTO user, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizartudo(user, id));
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO', 'ADMINISTRADOR')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO', 'ROLE_ADMINISTRADOR')")
     @PatchMapping("/atualizar/{id}")
     public ResponseEntity<UsuarioDTO> atualizar(@Valid @RequestBody UsuarioDTO user, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizar(user, id));
     }
 
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);
