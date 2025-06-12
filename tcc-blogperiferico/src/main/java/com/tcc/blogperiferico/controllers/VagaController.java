@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,35 +25,35 @@ public class VagaController {
     @Autowired
     private VagaService vagaService;
 
-    // Criar um novo anúncio
-    @PostMapping
-    public ResponseEntity<VagaDTO> criarVaga(@RequestBody VagaDTO dto) {
-    	VagaDTO novoVaga = vagaService.criarVaga(dto);
-        return ResponseEntity.ok(novoVaga);
-    }
-
-    // Listar todos os anúncios
+    // VISITANTE pode visualizar
     @GetMapping
     public ResponseEntity<List<VagaDTO>> listarVagas() {
-        List<VagaDTO> vagas = vagaService.listarVagas();
-        return ResponseEntity.ok(vagas);
+        return ResponseEntity.ok(vagaService.listarVagas());
     }
 
-    // Buscar um anúncio por ID
     @GetMapping("/{id}")
     public ResponseEntity<VagaDTO> buscarPorId(@PathVariable Long id) {
         Optional<VagaDTO> vaga = vagaService.buscarPorId(id);
         return vaga.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Atualizar um anúncio por ID
-    @PutMapping("/{id}")
-    public ResponseEntity<VagaDTO> atualizarVaga(@PathVariable Long id, @RequestBody VagaDTO dto) {
-        Optional<VagaDTO> vagaAtualizado = vagaService.atualizarVaga(id, dto);
-        return vagaAtualizado.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    // USUARIO e ADMINISTRADOR podem criar
+    @PreAuthorize("hasAnyRole('USUARIO', 'ADMINISTRADOR')")
+    @PostMapping
+    public ResponseEntity<VagaDTO> criarVaga(@RequestBody VagaDTO dto) {
+        return ResponseEntity.ok(vagaService.criarVaga(dto));
     }
 
-    // Excluir um anúncio por ID
+    // USUARIO pode editar própria vaga, ADMINISTRADOR pode editar qualquer
+    @PreAuthorize("hasAnyRole('USUARIO', 'ADMINISTRADOR')")
+    @PutMapping("/{id}")
+    public ResponseEntity<VagaDTO> atualizarVaga(@PathVariable Long id, @RequestBody VagaDTO dto) {
+        Optional<VagaDTO> atualizada = vagaService.atualizarVaga(id, dto);
+        return atualizada.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // USUARIO pode excluir própria vaga, ADMINISTRADOR qualquer
+    @PreAuthorize("hasAnyRole('USUARIO', 'ADMINISTRADOR')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirVaga(@PathVariable Long id) {
         boolean excluido = vagaService.excluirVaga(id);

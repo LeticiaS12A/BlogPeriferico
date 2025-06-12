@@ -36,7 +36,7 @@ public class UsuarioService {
                 throw new UsuarioDuplicadoException();
             }
             Usuario usuario = new Usuario(user);
-            usuario.setRoles(UsuarioRole.VISITANTE);
+            usuario.setRoles(UsuarioRole.ROLE_VISITANTE);
             return new UsuarioDTO(repository.save(usuario));
         }
 

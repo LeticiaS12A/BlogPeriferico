@@ -1,7 +1,7 @@
 package com.tcc.blogperiferico.enums;
 
 public enum UsuarioRole {
-	VISITANTE,
-	MODERADOR,
-	ADMINISTRADOR
+    ROLE_VISITANTE,
+    ROLE_USUARIO,
+    ROLE_ADMINISTRADOR
 }
