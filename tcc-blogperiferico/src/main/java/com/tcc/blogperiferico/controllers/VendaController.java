@@ -18,44 +18,44 @@ import com.tcc.blogperiferico.dto.VendaDTO;
 import com.tcc.blogperiferico.services.VendaService;
 
 @RestController
-@RequestMapping("/anuncios")
+@RequestMapping("/vendas")
 public class VendaController {
 
     @Autowired
     private VendaService anuncioService;
 
-    // Criar um novo anúncio
+    // Criar uma nova venda
     @PostMapping
-    public ResponseEntity<VendaDTO> criarAnuncio(@RequestBody VendaDTO dto) {
-        VendaDTO novoAnuncio = anuncioService.criarAnuncio(dto);
-        return ResponseEntity.ok(novoAnuncio);
+    public ResponseEntity<VendaDTO> criarVenda(@RequestBody VendaDTO dto) {
+        VendaDTO novoVenda = anuncioService.criarVenda(dto);
+        return ResponseEntity.ok(novoVenda);
     }
 
-    // Listar todos os anúncios
+    // Listar todos as vendas
     @GetMapping
-    public ResponseEntity<List<VendaDTO>> listarAnuncios() {
-        List<VendaDTO> anuncios = anuncioService.listarAnuncios();
-        return ResponseEntity.ok(anuncios);
+    public ResponseEntity<List<VendaDTO>> listarVendas() {
+        List<VendaDTO> venda = anuncioService.listarVendas();
+        return ResponseEntity.ok(venda);
     }
 
-    // Buscar um anúncio por ID
+    // Buscar um venda por ID
     @GetMapping("/{id}")
     public ResponseEntity<VendaDTO> buscarPorId(@PathVariable Long id) {
-        Optional<VendaDTO> anuncio = anuncioService.buscarPorId(id);
-        return anuncio.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<VendaDTO> venda = anuncioService.buscarPorId(id);
+        return venda.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Atualizar um anúncio por ID
+    // Atualizar um venda por ID
     @PutMapping("/{id}")
-    public ResponseEntity<VendaDTO> atualizarAnuncio(@PathVariable Long id, @RequestBody VendaDTO dto) {
-        Optional<VendaDTO> anuncioAtualizado = anuncioService.atualizarAnuncio(id, dto);
-        return anuncioAtualizado.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<VendaDTO> atualizarVenda(@PathVariable Long id, @RequestBody VendaDTO dto) {
+        Optional<VendaDTO> vendaAtualizado = anuncioService.atualizarVenda(id, dto);
+        return vendaAtualizado.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Excluir um anúncio por ID
+    // Excluir um venda por ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluirAnuncio(@PathVariable Long id) {
-        boolean excluido = anuncioService.excluirAnuncio(id);
+    public ResponseEntity<Void> excluirVenda(@PathVariable Long id) {
+        boolean excluido = anuncioService.excluirVenda(id);
         return excluido ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 	

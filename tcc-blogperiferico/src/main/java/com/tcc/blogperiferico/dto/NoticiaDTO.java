@@ -1,98 +1,100 @@
 package com.tcc.blogperiferico.dto;
 
+import java.time.LocalDateTime;
+
 import com.tcc.blogperiferico.entities.Noticia;
+import com.tcc.blogperiferico.entities.Usuario;
 import com.tcc.blogperiferico.entities.Zona;
 
 public class NoticiaDTO {
 
-    private Long id;
-    private String zona;
-    private String titulo;
-    private String texto;
-    private String imagem;
-    private String dataHoraCriacao;
+	private Long id;
+	private Zona zona;
+	private String titulo;
+	private String texto;
+	private String imagem;
+	private LocalDateTime dataHoraCriacao;
+	private Usuario idUsuario;
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+	// Getters and Setters
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getTexto() {
-        return texto;
-    }
+	public String getTexto() {
+		return texto;
+	}
 
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
 
-    public String getImagem() {
-        return imagem;
-    }
+	public String getImagem() {
+		return imagem;
+	}
 
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
 
-    public String getZona() {
-        return zona;
-    }
+	public Zona getZona() {
+		return zona;
+	}
 
-    public void setZona(String zona) {
-        this.zona = zona;
-    }
+	public void setZona(Zona zona) {
+		this.zona = zona;
+	}
 
-    public String getTitulo() {
-        return titulo;
-    }
+	public String getTitulo() {
+		return titulo;
+	}
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
 
-    public String getDataHoraCriacao() {
-        return dataHoraCriacao;
-    }
+	public LocalDateTime getDataHoraCriacao() {
+		return dataHoraCriacao;
+	}
+	public void setDataHoraCriacao(LocalDateTime dataHoraCriacao) {
+		this.dataHoraCriacao = dataHoraCriacao;
+	}
+	
+	public Usuario getIdUsuario() {
+		return idUsuario;
+	}
 
-    public void setDataHoraCriacao(String dataHoraCriacao) {
-        this.dataHoraCriacao = dataHoraCriacao;
-    }
+	public void setIdUsuario(Usuario idUsuario) {
+		this.idUsuario = idUsuario;
+	}
 
-    // Construtores
-    public NoticiaDTO() {
-    }
+	// Construtores
+	public NoticiaDTO() {
+	}
 
-    public NoticiaDTO(Long id, String zona, String titulo, String texto, String imagem, String dataHoraCriacao) {
-        this.id = id;
-        this.titulo = titulo;
-        this.texto = texto;
-        this.zona = zona;
-        this.imagem = imagem;
-        this.dataHoraCriacao = dataHoraCriacao;
-    }
+	public NoticiaDTO(Long id, Zona zona, String titulo, String texto, String imagem, LocalDateTime dataHoraCriacao, Usuario idUsuario) {
+		this.id = id;
+		this.zona = zona;
+		this.titulo = titulo;
+		this.texto = texto;
+		this.imagem = imagem;
+		this.dataHoraCriacao = dataHoraCriacao;
+		this.idUsuario = idUsuario;
+	}
 
-    // Construtor para converter de Noticia para NoticiaDTO
-    public NoticiaDTO(Noticia noticia) {
-        if (noticia != null) {
-            this.id = noticia.getIdNoticia();
-            this.titulo = noticia.getTitulo();
-            this.texto = noticia.getTexto();
-            this.imagem = noticia.getImagemBase64();
-            this.dataHoraCriacao = noticia.getHoraPostagem().toString(); // Converte LocalDateTime para String
-            this.zona = noticia.getZona() != null ? noticia.getZona().name() : null;  // Convertendo o enum para string
-        }
-    }
+	// Construtor para converter de Noticia para NoticiaDTO
+	public NoticiaDTO(Noticia noticia) {
+		this.id = noticia.getId();
+		this.zona = noticia.getZona();
+		this.titulo = noticia.getTitulo();
+		this.texto = noticia.getTexto();
+		this.imagem = noticia.getImagem();
+		this.dataHoraCriacao = noticia.getDataHoraCriacao(); // Converte LocalDateTime para String
+		this.idUsuario = noticia.getIdUsuario();
+	}
 
-    // Método para converter zona de string para enum
-    public Zona getZonaEnum() {
-        return this.zona != null ? Zona.valueOf(this.zona) : null;  // Convertendo a string para o enum Zona
-    }
-
-    // Método para setter para o enum Zona
-    public void setZonaEnum(Zona zona) {
-        this.zona = zona != null ? zona.name() : null; // Convertendo o enum para string
-    }
 }

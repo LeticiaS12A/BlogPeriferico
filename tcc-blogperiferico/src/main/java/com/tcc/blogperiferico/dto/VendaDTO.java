@@ -2,6 +2,7 @@ package com.tcc.blogperiferico.dto;
 
 import java.time.LocalDateTime;
 
+import com.tcc.blogperiferico.entities.Usuario;
 import com.tcc.blogperiferico.entities.Venda;
 import com.tcc.blogperiferico.entities.Zona;
 
@@ -20,6 +21,7 @@ public class VendaDTO {
 	private String cpf;
 	private Zona zona;
 	private LocalDateTime dataHoraCriacao;
+	private Usuario idUsuario;
 	
 	//Getters and Setters
 	public Long getId() {
@@ -69,6 +71,12 @@ public class VendaDTO {
 	}
 	public void setZona(Zona zona) {
 		this.zona = zona;
+	}	
+	public Usuario getIdUsuario() {
+		return idUsuario;
+	}
+	public void setIdUsuario(Usuario idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 	
 	public LocalDateTime getDataHoraCriacao() { return dataHoraCriacao; }
@@ -79,7 +87,7 @@ public class VendaDTO {
 	
 	}
 	public VendaDTO(Long id, String titulo, String descricao, String imagem, Float valor, String telefone, String cpf,
-			Zona zona, LocalDateTime dataHoraCriacao) {
+			Zona zona, LocalDateTime dataHoraCriacao, Usuario idUsuario) {
 		this.id = id;
 		this.titulo = titulo;
 		this.descricao = descricao;
@@ -89,6 +97,7 @@ public class VendaDTO {
 		this.cpf = cpf;
 		this.zona = zona;
 		this.dataHoraCriacao = dataHoraCriacao;
+		this.idUsuario = idUsuario;
 	}
 	public VendaDTO(Venda a) {
 		id = a.getId();
@@ -98,6 +107,7 @@ public class VendaDTO {
 		valor = a.getValor();
 		telefone = a.getTelefone();
 		dataHoraCriacao = a.getDataHoraCriacao();
+		idUsuario = a.getIdUsuario();
 	}
 	
 }

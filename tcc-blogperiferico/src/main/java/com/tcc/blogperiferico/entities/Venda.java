@@ -18,20 +18,19 @@ public class Venda {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String cpf;
 	private String titulo;
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
-	@Column(columnDefinition = "TEXT")
 	private String imagem;
 	private Float valor;
 	private String telefone;
-	
-    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+	private String cpf;
+	private Zona zona;
+	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 	
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
+    private Usuario idUsuario;
 	
 	//Getters and Setters
 	public Long getId() {
@@ -70,17 +69,23 @@ public class Venda {
 	public void setValor(Float valor) {
 		this.valor = valor;
 	}
-	public Usuario getUsuario() {
-		return usuario;
+	public Usuario getIdUsuario() {
+		return idUsuario;
 	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setIdUsuario(Usuario idUsuario) {
+		this.idUsuario = idUsuario;
 	}	
 	public String getCpf() {
 		return cpf;
 	}
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+	public Zona getZona() {
+		return zona;
+	}
+	public void setZona(Zona zona) {
+		this.zona = zona;
 	}
 	
 	public LocalDateTime getDataHoraCriacao() { return dataHoraCriacao; }
@@ -90,8 +95,8 @@ public class Venda {
 	public Venda() {
 	
 	}
-	public Venda(Long id, String cpf, String titulo, String descricao, String imagem, Float valor, String telefone,
-			LocalDateTime dataHoraCriacao, Usuario usuario) {
+	public Venda(Long id, String titulo, String descricao, String imagem, Float valor, String telefone, String cpf,
+			Zona zona, LocalDateTime dataHoraCriacao, Usuario idUsuario) {
 		this.id = id;
 		this.cpf = cpf;
 		this.titulo = titulo;
@@ -99,8 +104,9 @@ public class Venda {
 		this.imagem = imagem;
 		this.valor = valor;
 		this.telefone = telefone;
+		this.zona = zona;
 		this.dataHoraCriacao = dataHoraCriacao;
-		this.usuario = usuario;
+		this.idUsuario = idUsuario;
 	}
 	
 	

@@ -26,8 +26,8 @@ public class NoticiaController {
 
     // Criar um novo anúncio
     @PostMapping
-    public ResponseEntity<NoticiaDTO> criarNoticias(@RequestBody NoticiaDTO dto) {
-    	NoticiaDTO novoNoticias = noticiasService.criarNoticias(dto);
+    public ResponseEntity<NoticiaDTO> criarNoticia(@RequestBody NoticiaDTO dto) {
+    	NoticiaDTO novoNoticias = noticiasService.criarNoticia(dto);
         return ResponseEntity.ok(novoNoticias);
     }
 
@@ -47,15 +47,15 @@ public class NoticiaController {
 
     // Atualizar um anúncio por ID
     @PutMapping("/{id}")
-    public ResponseEntity<NoticiaDTO> atualizarNoticias(@PathVariable Long id, @RequestBody NoticiaDTO dto) {
-        Optional<NoticiaDTO> noticiasAtualizado = noticiasService.atualizarNoticias(id, dto);
+    public ResponseEntity<NoticiaDTO> atualizarNoticia(@PathVariable Long id, @RequestBody NoticiaDTO dto) {
+        Optional<NoticiaDTO> noticiasAtualizado = noticiasService.atualizarNoticia(id, dto);
         return noticiasAtualizado.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Excluir um anúncio por ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluirNoticias(@PathVariable Long id) {
-        boolean excluido = noticiasService.excluirNoticias(id);
+    public ResponseEntity<Void> excluirNoticia(@PathVariable Long id) {
+        boolean excluido = noticiasService.excluirNoticia(id);
         return excluido ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

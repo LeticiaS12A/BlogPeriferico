@@ -18,7 +18,6 @@ public class Doacao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String local;
 	private String titulo;
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
@@ -32,7 +31,7 @@ public class Doacao {
 	
 	@ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
+    private Usuario idUsuario;
 	
 	//Getters and Setters
 	public Long getId() {
@@ -40,12 +39,6 @@ public class Doacao {
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-	public String getLocal() {
-		return local;
-	}
-	public void setLocal(String local) {
-		this.local = local;
 	}
 	public String getDescricao() {
 		return descricao;
@@ -77,11 +70,11 @@ public class Doacao {
 	public void setZona(Zona zona) {
 		this.zona = zona;
 	}
-	public Usuario getUsuario() {
-		return usuario;
+	public Usuario getIdUsuario() {
+		return idUsuario;
 	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setIdUsuario(Usuario idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 	
 	public LocalDateTime getDataHoraCriacao() { return dataHoraCriacao; }
@@ -91,17 +84,16 @@ public class Doacao {
 	public Doacao() {
 	
 	}
-	public Doacao(Long id, String local, String titulo, String descricao, String telefone, Zona zona,
-			String imagem, LocalDateTime dataHoraCriacao, Usuario usuario) {
+	public Doacao(Long id, String titulo, String descricao, String telefone, Zona zona,
+			String imagem, LocalDateTime dataHoraCriacao, Usuario idUsuario) {
 		this.id = id;
-		this.local = local;
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.telefone = telefone;
 		this.zona = zona;
 		this.imagem = imagem;
 		this.dataHoraCriacao = dataHoraCriacao;
-		this.usuario = usuario;
+		this.idUsuario = idUsuario;
 	}
 
 }

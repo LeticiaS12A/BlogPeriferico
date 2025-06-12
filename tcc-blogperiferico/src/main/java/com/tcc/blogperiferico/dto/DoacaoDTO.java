@@ -3,6 +3,7 @@ package com.tcc.blogperiferico.dto;
 import java.time.LocalDateTime;
 
 import com.tcc.blogperiferico.entities.Doacao;
+import com.tcc.blogperiferico.entities.Usuario;
 import com.tcc.blogperiferico.entities.Zona;
 
 public class DoacaoDTO {
@@ -14,6 +15,7 @@ public class DoacaoDTO {
 	private Zona zona;
 	private String telefone;
 	private LocalDateTime dataHoraCriacao;
+	private Usuario idUsuario;
 	
 	//Getters and Setters
 	public Long getId() {
@@ -51,6 +53,12 @@ public class DoacaoDTO {
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}	
+	public Usuario getIdUsuario() {
+		return idUsuario;
+	}
+	public void setIdUsuario(Usuario idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 	
 	public LocalDateTime getDataHoraCriacao() { return dataHoraCriacao; }
@@ -61,7 +69,7 @@ public class DoacaoDTO {
 	
 	}	
 	public DoacaoDTO(Long id, String titulo, String descricao, String imagem, Zona zona, String telefone,
-			LocalDateTime dataHoraCriacao) {
+			LocalDateTime dataHoraCriacao, Usuario idUsuario) {
 		this.id = id;
 		this.titulo = titulo;
 		this.descricao = descricao;
@@ -69,6 +77,7 @@ public class DoacaoDTO {
 		this.zona = zona;
 		this.telefone = telefone;
 		this.dataHoraCriacao = dataHoraCriacao;
+		this.idUsuario = idUsuario;
 	}
 	public DoacaoDTO(Doacao d) {
 		id = d.getId();
@@ -78,6 +87,7 @@ public class DoacaoDTO {
 		imagem = d.getImagem();
 		telefone = d.getTelefone();
 		dataHoraCriacao = d.getDataHoraCriacao();
+		idUsuario = d.getIdUsuario();
 	}
 	
 }

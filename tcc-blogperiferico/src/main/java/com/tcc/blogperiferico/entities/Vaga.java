@@ -18,20 +18,17 @@ public class Vaga {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String local;
 	private String titulo;
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
-	private Zona zona;
-	
-	@Column(columnDefinition = "TEXT")
 	private String imagem;
+	private Zona zona;
 	
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 	
 	@ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
+    private Usuario idUsuario;
 	
 	//Getters and Setters
 	public Long getId() {
@@ -39,12 +36,6 @@ public class Vaga {
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-	public String getLocal() {
-		return local;
-	}
-	public void setLocal(String local) {
-		this.local = local;
 	}
 	public String getImagem() {
 		return imagem;
@@ -70,11 +61,11 @@ public class Vaga {
 	public void setZona(Zona zona) {
 		this.zona = zona;
 	}
-	public Usuario getUsuario() {
-		return usuario;
+	public Usuario getIDUsuario() {
+		return idUsuario;
 	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setIDUsuario(Usuario idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 	
 	public LocalDateTime getDataHoraCriacao() { return dataHoraCriacao; }
@@ -84,17 +75,15 @@ public class Vaga {
 	public Vaga() {
 	
 	}
-	public Vaga(Long id, String local, String titulo, String descricao, Zona zona,
-			String imagem, LocalDateTime dataHoraCriacao, Usuario usuario) {
+	public Vaga(Long id, String titulo, String descricao, String imagem,
+			Zona zona, LocalDateTime dataHoraCriacao, Usuario idUsuario) {
 		this.id = id;
-		this.local = local;
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.zona = zona;
 		this.imagem = imagem;
 		this.dataHoraCriacao = dataHoraCriacao;
-		this.usuario = usuario;
+		this.idUsuario = idUsuario;
 	}
-	
 	
 }

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tcc.blogperiferico.dto.VendaDTO;
+import com.tcc.blogperiferico.dto.VagaDTO;
 import com.tcc.blogperiferico.entities.Vaga;
 import com.tcc.blogperiferico.repository.VagaRepository;
 
@@ -15,48 +15,49 @@ import com.tcc.blogperiferico.repository.VagaRepository;
 public class VagaService {
 
 	@Autowired
-    private VagaRepository comercioRepository;
+    private VagaRepository vagaRepository;
 
     // Criar novo anúncio
-    public VendaDTO criarComercio(VendaDTO dto) {
-    	Vaga comercio = new Vaga(dto.getId(), dto.getLocal(), dto.getTexto(), dto.getImagem(), dto.getDataHoraCriacao());
-    	comercio = comercioRepository.save(comercio);
-        return new VendaDTO(dto.getId(), comercio.getLocal(), comercio.getTexto(), comercio.getImagem(), comercio.getDataHoraCriacao());
+    public VagaDTO criarVaga(VagaDTO dto) {
+    	Vaga vagas = new Vaga(dto.getId(), dto.getTitulo(), dto.getDescricao(), dto.getImagem(), dto.getZona(), dto.getDataHoraCriacao(), dto.getIdUsuario());
+    	vagas = vagaRepository.save(vagas);
+        return new VagaDTO(vagas.getId(), dto.getTitulo(), dto.getDescricao(), dto.getImagem(), dto.getZona(), dto.getDataHoraCriacao(), dto.getIdUsuario());
     }
 
     // Listar todos os anúncios
-    public List<VendaDTO> listarComercios() {
-        List<Vaga> comercios = comercioRepository.findAll();
-        return comercios.stream()
-                .map(c -> new VendaDTO(c.getId(), c.getLocal(), c.getTexto(), c.getImagem(), c.getDataHoraCriacao()))
+    public List<VagaDTO> listarVagas() {
+        List<Vaga> vagas = vagaRepository.findAll();
+        return vagas.stream()
+                .map(v -> new VagaDTO(v.getId(), v.getTitulo(), v.getDescricao(), v.getImagem(), v.getZona(), v.getDataHoraCriacao(), v.getIDUsuario()))
                 .collect(Collectors.toList());
     }
 
     // Buscar anúncio por ID
-    public Optional<VendaDTO> buscarPorId(Long id) {
-        Optional<Vaga> comercio = comercioRepository.findById(id);
-        return comercio.map(c -> new VendaDTO(c.getId(), c.getLocal(), c.getTexto(), c.getImagem(), c.getDataHoraCriacao()));
+    public Optional<VagaDTO> buscarPorId(Long id) {
+        Optional<Vaga> vaga = vagaRepository.findById(id);
+        return vaga.map(v -> new VagaDTO(v.getId(), v.getTitulo(), v.getDescricao(), v.getImagem(), v.getZona(), v.getDataHoraCriacao(), v.getIDUsuario()));
     }
 
     // Atualizar anúncio
-    public Optional<VendaDTO> atualizarComercio(Long id, VendaDTO dto) {
-        Optional<Vaga> comercioOpt = comercioRepository.findById(id);
-        if (comercioOpt.isPresent()) {
-            Vaga comercio = comercioOpt.get();
-            comercio.setLocal(dto.getLocal());
-            comercio.setTexto(dto.getTexto());
-            comercio.setImagem(dto.getImagem());
-            comercio.setDataHoraCriacao(dto.getDataHoraCriacao());
-            comercioRepository.save(comercio);
-            return Optional.of(new VendaDTO(comercio.getId(), comercio.getLocal(), comercio.getTexto(), comercio.getImagem(), comercio.getDataHoraCriacao()));
+    public Optional<VagaDTO> atualizarVaga(Long id, VagaDTO dto) {
+        Optional<Vaga> vagaOpt = vagaRepository.findById(id);
+        if (vagaOpt.isPresent()) {
+            Vaga vaga = vagaOpt.get();
+            vaga.setTitulo(dto.getTitulo());
+            vaga.setDescricao(dto.getDescricao());
+            vaga.setImagem(dto.getImagem());
+            vaga.setZona(dto.getZona());
+            vaga.setDataHoraCriacao(dto.getDataHoraCriacao());
+            vagaRepository.save(vaga);
+            return Optional.of(new VagaDTO(vaga.getId(),  dto.getTitulo(), dto.getDescricao(), dto.getImagem(), dto.getZona(), dto.getDataHoraCriacao(), dto.getIdUsuario()));
         }
         return Optional.empty();
     }
 
     // Excluir anúncio
-    public boolean excluirComercio(Long id) {
-        if (comercioRepository.existsById(id)) {
-        	comercioRepository.deleteById(id);
+    public boolean excluirVaga(Long id) {
+        if (vagaRepository.existsById(id)) {
+        	vagaRepository.deleteById(id);
             return true;
         }
         return false;

@@ -2,6 +2,7 @@ package com.tcc.blogperiferico.dto;
 
 import java.time.LocalDateTime;
 
+import com.tcc.blogperiferico.entities.Usuario;
 import com.tcc.blogperiferico.entities.Vaga;
 import com.tcc.blogperiferico.entities.Zona;
 
@@ -13,7 +14,7 @@ public class VagaDTO {
 	private String imagem;
 	private Zona zona;
 	private LocalDateTime dataHoraCriacao;
-	
+	private Usuario idUsuario;
 
 	//Getters and Setters
 	public Long getId() {
@@ -46,6 +47,12 @@ public class VagaDTO {
 	public void setZona(Zona zona) {
 		this.zona = zona;
 	}
+	public Usuario getIdUsuario() {
+		return idUsuario;
+	}
+	public void setIdUsuario(Usuario idUsuario) {
+		this.idUsuario = idUsuario;
+	}
 	
 	public LocalDateTime getDataHoraCriacao() { return dataHoraCriacao; }
     public void setDataHoraCriacao(LocalDateTime dataHoraCriacao) { this.dataHoraCriacao = dataHoraCriacao; }
@@ -56,21 +63,23 @@ public class VagaDTO {
 	}
 	
 	public VagaDTO(Long id, String titulo, String descricao, String imagem,
-			Zona zona, LocalDateTime dataHoraCriacao) {
+			Zona zona, LocalDateTime dataHoraCriacao, Usuario idUsuario) {
 		this.id = id;
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.imagem = imagem;
 		this.zona = zona;
 		this.dataHoraCriacao = dataHoraCriacao;
+		this.idUsuario = idUsuario;
 	}
-	public VagaDTO(Vaga c) {
-		id = c.getId();
-		titulo = c.getTitulo();
-		descricao = c.getDescricao();
-		zona = c.getZona();
-		imagem = c.getImagem();
-		dataHoraCriacao = c.getDataHoraCriacao();
+	public VagaDTO(Vaga v) {
+		id = v.getId();
+		titulo = v.getTitulo();
+		descricao = v.getDescricao();
+		zona = v.getZona();
+		imagem = v.getImagem();
+		dataHoraCriacao = v.getDataHoraCriacao();
+		idUsuario = v.getIDUsuario();
 	}
 	
 }

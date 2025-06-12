@@ -16,50 +16,52 @@ public class VendaService {
 
 
 	@Autowired
-    private VendaRepository anuncioRepository;
+    private VendaRepository vendaRepository;
 
     // Criar novo anúncio
-    public VendaDTO criarAnuncio(VendaDTO dto) {
-        Venda anuncio = new Venda(dto.getId(), dto.getLocal(), dto.getTexto(), dto.getImagem(), dto.getPreco(), dto.getTelefone(), dto.getDataHoraCriacao());
-        anuncio = anuncioRepository.save(anuncio);
-        return new VendaDTO(dto.getId(), anuncio.getLocal(), anuncio.getTexto(), anuncio.getImagem(), anuncio.getPreco(), anuncio.getTelefone(), anuncio.getDataHoraCriacao());
+    public VendaDTO criarVenda(VendaDTO dto) {
+        Venda vendas = new Venda(dto.getId(), dto.getTitulo(), dto.getDescricao(), dto.getImagem(), dto.getValor(), dto.getTelefone(), dto.getCpf(), dto.getZona(), dto.getDataHoraCriacao(), dto.getIdUsuario());
+        vendas = vendaRepository.save(vendas);
+        return new VendaDTO(vendas.getId(), dto.getTitulo(), dto.getDescricao(), dto.getImagem(), dto.getValor(), dto.getTelefone(), dto.getCpf(), dto.getZona(), dto.getDataHoraCriacao(), dto.getIdUsuario());
     }
 
     // Listar todos os anúncios
-    public List<VendaDTO> listarAnuncios() {
-        List<Venda> anuncios = anuncioRepository.findAll();
-        return anuncios.stream()
-                .map(a -> new VendaDTO(a.getId(), a.getLocal(), a.getTexto(), a.getImagem(), a.getPreco(), a.getTelefone(), a.getDataHoraCriacao()))
+    public List<VendaDTO> listarVendas() {
+        List<Venda> vendas = vendaRepository.findAll();
+        return vendas.stream()
+                .map(v -> new VendaDTO(v.getId(), v.getTitulo(), v.getDescricao(), v.getImagem(), v.getValor(), v.getTelefone(), v.getCpf(), v.getZona(), v.getDataHoraCriacao(), v.getIdUsuario()))
                 .collect(Collectors.toList());
     }
 
     // Buscar anúncio por ID
     public Optional<VendaDTO> buscarPorId(Long id) {
-        Optional<Venda> anuncio = anuncioRepository.findById(id);
-        return anuncio.map(a -> new VendaDTO(a.getId(), a.getLocal(), a.getTexto(), a.getImagem(), a.getPreco(), a.getTelefone(), a.getDataHoraCriacao()));
+        Optional<Venda> vendas = vendaRepository.findById(id);
+        return vendas.map(v -> new VendaDTO(v.getId(), v.getTitulo(), v.getDescricao(), v.getImagem(), v.getValor(), v.getTelefone(), v.getCpf(), v.getZona(), v.getDataHoraCriacao(), v.getIdUsuario()));
     }
 
     // Atualizar anúncio
-    public Optional<VendaDTO> atualizarAnuncio(Long id, VendaDTO dto) {
-        Optional<Venda> anuncioOpt = anuncioRepository.findById(id);
-        if (anuncioOpt.isPresent()) {
-            Venda anuncio = anuncioOpt.get();
-            anuncio.setLocal(dto.getLocal());
-            anuncio.setTexto(dto.getTexto());
-            anuncio.setImagem(dto.getImagem());
-            anuncio.setPreco(dto.getPreco());
-            anuncio.setTelefone(dto.getTelefone());
-            anuncio.setDataHoraCriacao(dto.getDataHoraCriacao());
-            anuncioRepository.save(anuncio);
-            return Optional.of(new VendaDTO(anuncio.getId(), anuncio.getLocal(), anuncio.getTexto(), anuncio.getImagem(), anuncio.getPreco(), anuncio.getTelefone(), anuncio.getDataHoraCriacao()));
+    public Optional<VendaDTO> atualizarVenda(Long id, VendaDTO dto) {
+        Optional<Venda> vendaOpt = vendaRepository.findById(id);
+        if (vendaOpt.isPresent()) {
+            Venda venda = vendaOpt.get();
+            venda.setTitulo(dto.getTitulo());
+            venda.setDescricao(dto.getDescricao());
+            venda.setImagem(dto.getImagem());
+            venda.setValor(dto.getValor());
+            venda.setTelefone(dto.getTelefone());
+            venda.setCpf(dto.getCpf());
+            venda.setZona(dto.getZona());
+            venda.setDataHoraCriacao(dto.getDataHoraCriacao());
+            vendaRepository.save(venda);
+            return Optional.of(new VendaDTO(venda.getId(), venda.getTitulo(), venda.getDescricao(), venda.getImagem(), venda.getValor(), venda.getTelefone(), venda.getCpf(), venda.getZona(), venda.getDataHoraCriacao(), venda.getIdUsuario()));
         }
         return Optional.empty();
     }
 
     // Excluir anúncio
-    public boolean excluirAnuncio(Long id) {
-        if (anuncioRepository.existsById(id)) {
-            anuncioRepository.deleteById(id);
+    public boolean excluirVenda(Long id) {
+        if (vendaRepository.existsById(id)) {
+        	vendaRepository.deleteById(id);
             return true;
         }
         return false;
