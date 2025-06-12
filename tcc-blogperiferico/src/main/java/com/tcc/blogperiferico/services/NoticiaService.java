@@ -5,11 +5,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.tcc.blogperiferico.dto.NoticiaDTO;
 import com.tcc.blogperiferico.entities.Noticia;
 import com.tcc.blogperiferico.repository.NoticiaRepository;
 
+@Service
 public class NoticiaService {
 
     @Autowired

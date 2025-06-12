@@ -34,18 +34,19 @@ public class Usuario {
 	private UsuarioRole roles;
 	
 	
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Venda> anuncios = new ArrayList<>();
-	
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "idUsuario", cascade = CascadeType.ALL)
     private List<Noticia> noticias;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Vaga> comercios;
-
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Doacao> doacoes;
+	@OneToMany(mappedBy = "idUsuario", cascade = CascadeType.ALL)
+	private List<Doacao> doacoes;
 	
+    @OneToMany(mappedBy = "idUsuario", cascade = CascadeType.ALL)
+    private List<Vaga> vagas;
+
+    @OneToMany(mappedBy = "idUsuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Venda> vendas = new ArrayList<>();
+
+    
 	//Constructors
 	public Usuario() {
 
