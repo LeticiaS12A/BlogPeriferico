@@ -29,7 +29,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService service;
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ROLE_VISITANTE', 'ROLE_USUARIO','ROLE_ADMINISTRADOR')")
     @GetMapping("/listar")
     public ResponseEntity<List<UsuarioDTO>> listarTudo() {
         return ResponseEntity.ok(service.listar());
@@ -41,7 +41,7 @@ public class UsuarioController {
         return ResponseEntity.ok(service.listar(id));
     }
 
-    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @CrossOrigin(origins = "/**")
     @PostMapping("/salvar")
     public ResponseEntity<UsuarioDTO> salvar(@Valid @RequestBody UsuarioDTO dto) {
         // Forçar role para "ROLE_ADMINISTRADOR" temporariamente
@@ -51,7 +51,7 @@ public class UsuarioController {
         return ResponseEntity.ok(service.salvar(dto));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO', 'ROLE_ADMINISTRADOR')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRADOR')")
     @PutMapping("/atualizartudo/{id}")
     public ResponseEntity<UsuarioDTO> atualizarTudo(@Valid @RequestBody UsuarioDTO user, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizartudo(user, id));
